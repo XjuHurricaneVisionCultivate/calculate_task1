@@ -22,10 +22,9 @@ if contours:
     # 取面积最大的轮廓
     largest = max(contours, key=cv2.contourArea)
     x, y, w, h = cv2.boundingRect(largest)
-    cropped = img[y:y+h, x:x+w]
-    cv2.imshow("Result", cropped)
-else:
-    cv2.imshow("Result", img)
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
+
+cv2.imshow("Result", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

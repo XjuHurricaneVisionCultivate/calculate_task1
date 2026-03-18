@@ -41,6 +41,7 @@ def extract_expression(image_path: str) -> str:
         '--oem 1 --psm 7 '
         '-c tessedit_char_whitelist=0123456789+-×÷*/'
     )
+    
     text = pytesseract.image_to_string(img, config=config)
     return text.strip()
 def clean_expression(raw: str) -> str:

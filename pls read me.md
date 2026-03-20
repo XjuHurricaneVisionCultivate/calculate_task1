@@ -32,6 +32,14 @@
 
 - 下一步与ocr_pix系列相结合
 
+## integrate.py
+
+- 实现了从t1-t4.png的准确识别
+  
+- 能够正确框选roi并进行识别
+
+- 目前需要更多验证图片
+
 ---
 
 > qwq qwq qwq qwq qwq

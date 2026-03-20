@@ -16,11 +16,13 @@ def preprocess_image(img_path):
     return temp_path
 
 def clean_latex(latex_str):
-    """清洗：剔除空格和LaTeX空格命令，修正潜在错误"""
+    """清洗：剔除空格、LaTeX空格命令、等号和问号"""
     result = latex_str.replace(" ", "")
     latex_spaces = [r"\;", r"\,", r"\:", r"\ ", r"\!", r"\quad", r"\qquad"]
     for space in latex_spaces:
         result = result.replace(space, "")
+    result = result.replace("=", "")
+    result = result.replace("?", "")
     return result
 
 def process_and_solve(p2t, img_path):

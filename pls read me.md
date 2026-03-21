@@ -40,6 +40,16 @@
 
 - 目前需要更多验证图片
 
+## integrate2.py
+
+- successfully generate the formula
+  
+- still have bugs in roi
+
+## simultaneously.py
+
+- generate 40 pics in one time
+
 ---
 
 > qwq qwq qwq qwq qwq

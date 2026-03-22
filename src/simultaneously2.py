@@ -6,7 +6,6 @@ from latex2sympy2 import latex2sympy
 
 
 def order_points(pts):
-    """将4个顶点按 左上、右上、右下、左下 排序"""
     rect = np.zeros((4, 2), dtype="float32")
     s = pts.sum(axis=1)
     rect[0] = pts[np.argmin(s)]
@@ -18,7 +17,6 @@ def order_points(pts):
 
 
 def four_point_transform(image, pts):
-    """透视变换，将检测到的四边形区域摆正"""
     rect = order_points(pts)
     tl, tr, br, bl = rect
 
@@ -38,10 +36,9 @@ def four_point_transform(image, pts):
 
 
 def find_roi(img):
-    """从图片中提取ROI（白色屏幕区域）"""
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     lower_white = np.array([0,   0,   200])
-    upper_white = np.array([180, 30,  255])
+    upper_white = np.array([180, 40,  255])
     mask = cv2.inRange(hsv, lower_white, upper_white)
 
     kernel = np.ones((5, 5), np.uint8)
@@ -69,7 +66,6 @@ def find_roi(img):
 
 
 def preprocess_roi(roi_img):
-    """预处理ROI：放大并二值化"""
     roi_resized = cv2.resize(roi_img, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(roi_resized, cv2.COLOR_BGR2GRAY)
     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -77,7 +73,6 @@ def preprocess_roi(roi_img):
 
 
 def clean_latex(latex_str):
-    """清洗：剔除空格、LaTeX空格命令、等号和问号"""
     import re
     result = latex_str.replace(" ", "")
     latex_spaces = [r"\;", r"\,", r"\:", r"\ ", r"\!", r"\quad", r"\qquad"]
@@ -110,8 +105,7 @@ def clean_latex(latex_str):
     return result
 
 
-def recognize_and_calculate(img_path):
-    """完整流程：从图片中提取ROI -> 识别公式 -> 计算结果"""
+def recognize_and_calculate(img_path, p2t):
     if not os.path.exists(img_path):
         print(f"错误：未找到文件 '{img_path}'")
         return
@@ -130,8 +124,6 @@ def recognize_and_calculate(img_path):
 
     processed = preprocess_roi(roi)
     cv2.imwrite("temp_pro.png", processed)
-
-    p2t = Pix2Text(languages=('en', 'ch_sim'))
 
     raw_out = p2t.recognize_formula("temp_pro.png")
     clean_out = clean_latex(raw_out)
@@ -152,5 +144,13 @@ def recognize_and_calculate(img_path):
 
 
 if __name__ == '__main__':
-    default_img = r"C:\Users\admin\Documents\GitHub\calculate_task1\src\figure/0037.jpg"
-    recognize_and_calculate(default_img)
+    figure_dir = r"C:\Users\admin\Documents\GitHub\calculate_task1\src\figure"
+    p2t = Pix2Text(languages=('en', 'ch_sim'))
+
+    for i in range(1, 43):
+        img_name = f"{i:04d}.jpg"
+        img_path = os.path.join(figure_dir, img_name)
+        print(f"\n{'='*50}")
+        print(f"处理图片: {img_name}")
+        print('='*50)
+        recognize_and_calculate(img_path, p2t)

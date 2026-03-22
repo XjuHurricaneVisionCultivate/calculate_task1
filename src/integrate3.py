@@ -41,7 +41,7 @@ def find_roi(img):
     """从图片中提取ROI（白色屏幕区域）"""
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     lower_white = np.array([0,   0,   200])
-    upper_white = np.array([180, 30,  255])
+    upper_white = np.array([180, 40,  255])
     mask = cv2.inRange(hsv, lower_white, upper_white)
 
     kernel = np.ones((5, 5), np.uint8)
@@ -152,5 +152,5 @@ def recognize_and_calculate(img_path):
 
 
 if __name__ == '__main__':
-    default_img = r"C:\Users\admin\Documents\GitHub\calculate_task1\src\figure/0037.jpg"
+    default_img = r"C:\Users\admin\Documents\GitHub\calculate_task1\src\figure/0041.jpg"
     recognize_and_calculate(default_img)

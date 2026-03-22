@@ -46,9 +46,21 @@
   
 - still have bugs in roi
 
+## integrate3.py
+
+- the most successful project
+
 ## simultaneously.py
 
 - generate 40 pics in one time
+
+## simultaneously2.py
+
+- the most successful project
+
+## figure_hsv_detect.py
+
+- dynamically judge the hsv from the cursor
 
 ---
 
